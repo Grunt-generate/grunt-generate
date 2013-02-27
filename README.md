@@ -38,6 +38,7 @@ grunt.initConfig({
 #### Options
 Possible options include what is below, the path shown are the defaults app included in the plugin.
 
+```js
   appname       : "Your app",
   appsrc        : "app/scripts/"
   routersrc     : "routers/",
@@ -45,19 +46,21 @@ Possible options include what is below, the path shown are the defaults app incl
   viewsrc       : "views/",
   collectionsrc : "collections/",
   templatesrc   : "templates/"
+```
 
 ### Usage Examples
 
 The typical command would be:
-
+```js
   grunt bb_generate:router:name
-
+```
 
 With the detault options that would generate a router (name.js) in the folder "app/scripts/routers"
 
 Because apps do not always folder standars you can overwrite the path on the fly like this:
-
+```js
   grunt bb_generate:router:name:mypath/to/router
+```
 
 ### Bending it to your will
 
@@ -69,6 +72,7 @@ There is a very easy pattern to follow, you should get the gist pretty easily.
 
 
 ## Contributing
+
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 
