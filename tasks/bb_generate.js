@@ -29,27 +29,27 @@ module.exports = function(grunt) {
     var src = (path) ? path : options[this.target+"src"];
 
     if(this.target === "router"){
-      var tmpl = grunt.file.read("templates/router.js");
+      var tmpl = grunt.file.read(__dirname+"/../templates/router.js");
       grunt.file.write(src+name+".js", grunt.template.process(tmpl,{data:content}));
       grunt.log.writeln('Generated '+  name + ' router');
     }
     if(this.target === "model"){
-      var tmpl = grunt.file.read("templates/model.js");
+      var tmpl = grunt.file.read(__dirname+"/../templates/model.js");
       grunt.file.write(src+name+"js", grunt.template.process(tmpl,{data:content}));
       grunt.log.writeln('Generated '+  name + ' model');
     }
     if(this.target === "view"){
-      var tmpl = grunt.file.read("templates/view.js");
+      var tmpl = grunt.file.read(__dirname+"/../templates/view.js");
       grunt.file.write(src+name+".js", grunt.template.process(tmpl,{data:content}));
       grunt.log.writeln('viewsrc '+  name + ' view');
     }
       if(this.target === "template"){
-      var tmpl = grunt.file.read("templates/template.html");
+      var tmpl = grunt.file.read(__dirname+"/../templates/template.html");
       grunt.file.write(src+name+".html", grunt.template.process(tmpl,{data:content}));
       grunt.log.writeln('Generated '+  name + ' template');
     }
     if(this.target === "collection"){
-      var tmpl = grunt.file.read("templates/collection.js");
+      var tmpl = grunt.file.read(__dirname+"/../templates/collection.js");
       grunt.file.write(src+name+".js", grunt.template.process(tmpl,{data:content}));
       grunt.log.writeln('Generated '+  name + ' collection');
     }
