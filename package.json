@@ -1,7 +1,7 @@
 {
   "name": "grunt-bb-generate",
   "description": "Grunt plugin that scaffold backbone generators. It follows the DFGIMW mantra (don't fucking get in my way). It aims at be easily modifiable to fit any architecture being backbone or others.",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "homepage": "https://github.com/cedricdugas/bb-generate",
   "author": {
     "name": "Cedric Dugas",
