@@ -1,23 +1,23 @@
 {
-  "name": "grunt-bb-generate",
-  "description": "Grunt plugin that scaffold backbone generators. It follows the DFGIMW mantra (don't fucking get in my way). It aims at be easily modifiable to fit any architecture being backbone or others.",
-  "version": "0.1.5",
-  "homepage": "https://github.com/cedricdugas/bb-generate",
+  "name": "grunt-generate",
+  "description": "Grunt task that generates files from user-defined templates. It follows the DFGIMW mantra (don't fucking get in my way).",
+  "version": "0.2.0",
+  "homepage": "https://github.com/grunt-generate/grunt-generate",
   "author": {
-    "name": "Cedric Dugas",
-    "email": "cedric.dugas@gmail.com"
+    "name": "Camille Reynders",
+    "email": "info@creynders.be"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/cedricdugas/bb-generate.git"
+    "url": "git://github.com/grunt-generate/grunt-generate.git"
   },
   "bugs": {
-    "url": "https://github.com/cedricdugas/bb-generate/issues"
+    "url": "https://github.com/grunt-generate/grunt-generate/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/cedricdugas/bb-generate/blob/master/LICENSE-MIT"
+      "url": "https://github.com/grunt-generate/grunt-generate/blob/master/LICENSE-MIT"
     }
   ],
   "main": "Gruntfile.js",
@@ -31,12 +31,12 @@
     "grunt-contrib-jshint": "~0.1.1",
     "grunt-contrib-clean": "~0.4.0",
     "grunt-contrib-nodeunit": "~0.1.2",
-    "grunt": "~0.4.0"
+    "grunt": "~0.4.1"
   },
   "peerDependencies": {
-    "grunt": "~0.4.0"
+    "grunt": ">=0.4.0"
   },
   "keywords": [
-    "backbone,generators,scaffold,scaffolding"
+    "backbone,marionette,generators,scaffold,scaffolding"
   ]
 }

@@ -1,0 +1,2 @@
+<%= fqn %> = Backbone.View.extend({
+});

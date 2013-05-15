@@ -1,8 +1,8 @@
 /*
- * grunt-bc-scaffold
- * https://github.com/cedricdugas/bb-generate
+ * grunt-generate
+ * https://github.com/grunt-generate/grunt-generate
  *
- * Copyright (c) 2013 Cedric Dugas
+ * Copyright (c) 2013 Camille Reynders, Cedric Dugas
  * Licensed under the MIT license.
  */
 
@@ -16,41 +16,44 @@ module.exports = function(grunt) {
       all: [
         'Gruntfile.js',
         'tasks/*.js',
-        '<%= nodeunit.tests %>',
+        '<%= nodeunit.tests %>'
       ],
       options: {
-        jshintrc: '.jshintrc',
-      },
+        jshintrc: '.jshintrc'
+      }
     },
 
     // Before generating any new files, remove any previously-created files.
     clean: {
-      tests: ['tmp'],
+      tests: ['tmp']
     },
 
     // Configuration to be run (and then tested).
-    bb_generate: {
+    generate: {
       options: {
-        appname : "appName",
-        appsrc:"app/scripts/"
+        appName : "generate"
       },
-      router:{},
-      view:{},
-      collection:{},
-      model:{},
-      template:{},
-
+      backbone:{
+        options:{
+          map:{
+            View: 'views/View',
+            Model: 'models/Model',
+            Collection: 'collections/Collection',
+            Router: 'routers/Router'
+          }
+        }       
+      }
     },
 
     // Unit tests.
     nodeunit: {
-      tests: ['test/*_test.js'],
-    },
+      tests: ['test/*_test.js']
+    }
 
   });
 
   // Actually load this plugin's task(s).
-  grunt.loadTasks('bb_generate');
+  grunt.loadTasks('tasks');
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -59,7 +62,7 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'bb_generate', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'nodeunit']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);
