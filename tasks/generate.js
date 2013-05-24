@@ -46,7 +46,7 @@ module.exports = function(grunt) {
       grunt.verbose.writeln('Options:', options);
       grunt.verbose.writeln("Read:", sourcePath);
       var fileContent = grunt.template.process(templateFile,{data:options});
-      //grunt.file.write(destinationPath, fileContent);
+      grunt.file.write(destinationPath, fileContent);
       grunt.log.writeln('Generated:', destinationPath);
   });
 
