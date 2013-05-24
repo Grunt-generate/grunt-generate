@@ -37,6 +37,10 @@
     "grunt": ">=0.4.0"
   },
   "keywords": [
-    "backbone,marionette,generators,scaffold,scaffolding,gruntplugin"
+    "backbone",
+    "marionette",
+    "generators",
+    "scaffold",
+    "gruntplugin"
   ]
 }
