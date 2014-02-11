@@ -1,4 +1,4 @@
-# grunt-generate
+# grunt-generate [![GitHub version](https://badge.fury.io/gh/Grunt-generate%2Fgrunt-generate.png)](http://badge.fury.io/gh/Grunt-generate%2Fgrunt-generate)
 
 > Grunt plugin that generates files from user-defined templates. It follows the DFGIMW mantra (don't fucking get in my way).
 
