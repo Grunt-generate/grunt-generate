@@ -2,7 +2,7 @@
 var app = app || {};
 (function(){
   'use strict';
-  app.<%= meta.className %> = Backbone.Model.extend({
+  app.Modelstub = Backbone.Model.extend({
       defaults : {
       }
   });
