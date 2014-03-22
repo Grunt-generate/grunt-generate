@@ -1,11 +1,11 @@
 # grunt-generate
 
-> Grunt plugin that generates files from user-defined templates. It follows the DFGIMW mantra (don't fucking get in my way).
+> Grunt plugin that generates files from user-defined templates.
 
 It doesn't aim to replace grunt-init or Yo, but rather complement it.
-Yo generators are cool, but restricting. This task allows you to very easily and extremely fast set up your own templates and start using them right away.
+Yo generators are cool, but restricting. This task allows you to set up your own templates and start using them right away.
 
-When you run the task it basically looks for a specified template, processes it and uses it to generate a file right into your application structure.
+When you run the task it basically looks for a specified template, processes it and uses it to generate a file right into your project structure.
 The real benefits are that the task is highly configurable and allows you to create files from templates of your own making (there are some pre-defined ones though)
 into a structure you have decided upon.
 
@@ -28,6 +28,10 @@ grunt.loadNpmTasks('grunt-generate');
 
 ## The "generate" task
 
+### Backwards compatibility
+
+v0.3 introduces an entirely new API and is most definitely NOT backwards compatible.
+
 ### Overview
 
 Some pre-defined templates are shipped with grunt-generate, **let's take a look how you would start using the _backbone_ templates**.
@@ -35,60 +39,36 @@ Some pre-defined templates are shipped with grunt-generate, **let's take a look 
 In your project's Gruntfile, add a section named `generate` to the data object passed into `grunt.initConfig()`.
 
 ```js
+var jsDir = 'app/scripts';
 grunt.initConfig({
   generate: {
     options: {
-        appName: 'MyAwesomeApp' //this is the only required one
-    },
-    backbone:{
-      options:{
         map:{
-          View: 'views/View',
-          Model: 'models/Model',
-          Collection: 'collections/Collection',
-          Router: 'routers/Router'
+          "backbone/View": jsDir + 'views/{{=path}}/{{=name}}',
+          "backbone/Model": jsDir + 'models/{{=path}}/{{=name}}'
         }
-      }
     }
-  },
+  }
 })
 ```
 
-### General options
-
-#### appName
-Type: `String`
-
-Requires, is used to determine the package
+### Options
 
 #### src
 Type: `String`
-Default: '<grunt-generate>/templates'
+Default: 'templates'
 
 Path to the source templates directory. Do not end this with a `/` (slash).
 Relative to the Gruntfile.
-
-#### dest
-Type: `String`
-Default: 'app/scripts'
-
-Path to the destination directory. Do not end this with a `/` (slash).
-Relative to the Gruntfile.
-
-#### extension
-Type: `String`
-Default: '.js'
-
-The extension of the files. This allows you to use grunt-generate with other types of files than JavaScript only.
 
 ### Usage Examples
 
 The typical command would be:
 ```shell
-  grunt generate:backbone:Model:*/FooModel
+  grunt generate:backbone/Model:Credentials@login
 ```
 
-This will take the template `Model.js` inside the `templates` directory of the grunt-generate task, process it and output to a file
+This will take the template `Model.js` inside the `templates/backbone` directory of the grunt-generate task, process it and output to a file
 `app/scripts/models/FooModel.js`
 
 ### Template path and filename mappings
@@ -182,7 +162,7 @@ Since everything is configurable you can choose whatever structure you want for 
 
 ```
 templ/bb/Model.js
-templ/m/views/ItemView.js 
+templ/m/views/ItemView.js
 ```
 
 And your config would look like this:
@@ -197,7 +177,7 @@ And your config would look like this:
     },
 
     //this MUST be the directory name of your backbone templates
-    bb:{ 
+    bb:{
       options:{
         map: {
           Model: 'data/Model'
