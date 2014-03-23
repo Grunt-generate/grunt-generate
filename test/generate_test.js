@@ -25,15 +25,16 @@ var util = require( 'util' );
 var task = require( '../tasks/generate' );
 var expect = require( 'chai' ).expect;
 
+var defaultArgs = ['--gruntfile', 'test/fixtures/Gruntfile.js', '--no-color'];
 module.exports = {
   'should throw error when called without arguments' : function( test ){
     grunt.util.spawn( {
       grunt : true,
-      args  : ['generate']
+      args  : ['generate'].concat(defaultArgs)
     }, function( err,
                  result ){
       test.expect( 2 );
-      test.ok( expect( result.stdout ).to.contain( 'requires exactly 2 arguments' ) );
+      test.ok( expect( result.stdout ).to.contain( 'requires exactly 2 task arguments' ) );
       test.ok( expect( err ).not.to.be.undefined );
       test.done();
     } );
@@ -42,7 +43,7 @@ module.exports = {
   'should throw error when called with one argument' : function( test ){
     grunt.util.spawn( {
       grunt : true,
-      args  : ['generate:foo']
+      args  : ['generate:foo'].concat(defaultArgs)
     }, function( err,
                  result ){
       test.expect( 2 );
@@ -52,15 +53,93 @@ module.exports = {
     } );
   },
 
-  'should generate file at correct location' : function( test ){
+  'should generate a file w/o path' : function( test ){
     grunt.util.spawn( {
       grunt : true,
-      args  : ['generate:backbone/Model:ModelStub@tests']
+      args  : ['generate:mapping/Module:ModuleStub'].concat(defaultArgs)
     }, function( err,
                  result ){
-      err && console.log(result.stdout);
+      err && test.fail(result.stdout);
       test.expect( 1 );
-      test.ok( grunt.file.exists( '.tmp/tests/ModelStub.js' ) );
+      test.ok( grunt.file.exists( 'test/fixtures/generated/dest/mapped/ModuleStub.js' ) );
+      test.done();
+    } );
+  },
+
+  'should generate a file with path' : function( test ){
+    grunt.util.spawn( {
+      grunt : true,
+      args  : ['generate:mapping/Module:ModuleStub@feature'].concat(defaultArgs)
+    }, function( err,
+                 result ){
+      err && test.fail(result.stdout);
+      test.expect( 1 );
+      test.ok( grunt.file.exists( 'test/fixtures/generated/dest/mapped/feature/ModuleStub.js' ) );
+      test.done();
+    } );
+  },
+
+  'should allow overriding the default dest in the mapping' : function( test ){
+    grunt.util.spawn( {
+      grunt : true,
+      args  : ['generate:override/Module:ModuleStub'].concat(defaultArgs)
+    }, function( err,
+                 result ){
+      err && test.fail(result.stdout);
+      test.expect( 1 );
+      test.ok( grunt.file.exists( 'test/fixtures/generated/overridden/mapped/ModuleStub.js' ) );
+      test.done();
+    } );
+  },
+
+  'should allow overriding the default dest in the argument' : function( test ){
+    grunt.util.spawn( {
+      grunt : true,
+      args  : ['generate:mapping/Module:ModuleStub@/generated/overridden/argumented'].concat(defaultArgs)
+    }, function( err,
+                 result ){
+      err && test.fail(result.stdout);
+      test.expect( 1 );
+      test.ok( grunt.file.exists( 'test/fixtures/generated/overridden/argumented/ModuleStub.js' ) );
+      test.done();
+    } );
+  },
+
+  'should allow overriding a mapping with a file-specific mapping' : function( test ){
+    grunt.util.spawn( {
+      grunt : true,
+      args  : ['generate:override/ExtraModule:ModuleStub'].concat(defaultArgs)
+    }, function( err,
+                 result ){
+      err && test.fail(result.stdout);
+      test.expect( 1 );
+      test.ok( grunt.file.exists( 'test/fixtures/generated/dest/overridden/ModuleStub.js' ) );
+      test.done();
+    } );
+  },
+
+  'should allow constructing a path' : function( test ){
+    grunt.util.spawn( {
+      grunt : true,
+      args  : ['generate:constructed/Module:ModuleStub@feature'].concat(defaultArgs)
+    }, function( err,
+                 result ){
+      err && test.fail(result.stdout);
+      test.expect( 1 );
+      test.ok( grunt.file.exists( 'test/fixtures/generated/dest/feature/constructed/ModuleStub.js' ) );
+      test.done();
+    } );
+  },
+
+  'should allow constructing a path with file' : function( test ){
+    grunt.util.spawn( {
+      grunt : true,
+      args  : ['generate:constructed/ExtraModule:Module@feature'].concat(defaultArgs)
+    }, function( err,
+                 result ){
+      err && test.fail(result.stdout);
+      test.expect( 1 );
+      test.ok( grunt.file.exists( 'test/fixtures/generated/dest/feature/constructed/stub_Module.js' ) );
       test.done();
     } );
   },
@@ -68,7 +147,7 @@ module.exports = {
   'should throw error when template file not found' : function( test ){
     grunt.util.spawn( {
       grunt : true,
-      args  : ['generate:undefined:undefined', '--no-color']
+      args  : ['generate:undefined:undefined'].concat(defaultArgs)
     }, function( err,
                  result ){
       test.expect( 2 );
@@ -77,18 +156,18 @@ module.exports = {
       test.done();
     } );
   },
-
-  'should throw error when multiple template files match' : function( test ){
-    grunt.util.spawn( {
-      grunt : true,
-      args  : ['generate:backbone/*:undefined', '--no-color']
-    }, function( err,
-                 result ){
-      test.expect( 2 );
-      test.ok( expect( result.stdout ).to.contain( 'Ambiguous reference to template file' ) );
-      test.ok( expect( err ).not.to.be.undefined );
-      test.done();
-    } );
-  }
+//
+//  'should throw error when multiple template files match' : function( test ){
+//    grunt.util.spawn( {
+//      grunt : true,
+//      args  : ['generate:mapping/*:undefined'].concat(defaultArgs)
+//    }, function( err,
+//                 result ){
+//      test.expect( 2 );
+//      test.ok( expect( result.stdout ).to.contain( 'Ambiguous reference to template file' ) );
+//      test.ok( expect( err ).not.to.be.undefined );
+//      test.done();
+//    } );
+//  }
 
 };

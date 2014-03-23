@@ -1,10 +1,8 @@
 module.exports = {
   options  : {
-    src: 'templates',
-    default: ".tmp/{{=path}}/{{=name}}",
+    dest: ".tmp",
     map: {
-      "grunt/singleConfig" : "config/{{=name}}",
-      "grunt/multiConfig" : "config/{{=name}}"
+      "grunt" : "/config"
     }
   }
 };

@@ -3,7 +3,7 @@
 > Grunt plugin that generates files from user-defined templates.
 
 It doesn't aim to replace grunt-init or Yo, but rather complement it.
-Yo generators are cool, but restricting. This task allows you to set up your own templates and start using them right away.
+Yo generators are cool, but opinionated. This task allows you to set up your own templates and start using them right away, organized any which way you want.
 
 When you run the task it basically looks for a specified template, processes it and uses it to generate a file right into your project structure.
 The real benefits are that the task is highly configurable and allows you to create files from templates of your own making (there are some pre-defined ones though)
@@ -28,191 +28,241 @@ grunt.loadNpmTasks('grunt-generate');
 
 ## The "generate" task
 
-### Backwards compatibility
+### v0.3
 
-v0.3 introduces an entirely new API and is most definitely NOT backwards compatible.
+v0.3 introduces an entirely new API and is most definitely NOT backwards compatible. Compared to the previous versions it should be more clear, intuitive and save you some typing.
 
 ### Overview
 
-Some pre-defined templates are shipped with grunt-generate, **let's take a look how you would start using the _backbone_ templates**.
+Some pre-defined templates are shipped with grunt-generate, **let's take a look how you would start using the [pre-defined templates][predefined-templates]**.
+
+We're going to use the template `templates/backbone/Model.js` and use it to generate `app/scripts/models/UserModel.js`.
+
+#### Configuration
 
 In your project's Gruntfile, add a section named `generate` to the data object passed into `grunt.initConfig()`.
 
 ```js
-var jsDir = 'app/scripts';
 grunt.initConfig({
   generate: {
     options: {
-        map:{
-          "backbone/View": jsDir + 'views/{{=path}}/{{=name}}',
-          "backbone/Model": jsDir + 'models/{{=path}}/{{=name}}'
-        }
+      dest : 'app/scripts'
     }
   }
 })
 ```
 
+`dest` tells the task where to put the generated files by default.
+Since most of our templates will be used in the application itself we allow them to be generated into `app/scripts`.
+
+#### Usage
+
+```shell
+grunt generate:backbone/Model:UserModel@models
+```
+
+This will generate a file `app/scripts/models/UserModel` by processing the template `templates/backbone/Model.js`.
+
+Et voila, you just scaffolded your very first file using `grunt-generate`.
+
+### There's more
+
+`grunt-generate` is simple to use yet pretty powerful. You can tell the task where to generate your files depending on what template you use, either by configuration or through task arguments.
+
+Let's take a look how this is done.
+
+#### Mapping directories
+
+You can map template directories to destination directories, which means that any templates from a particular template directory will generate files into another specified directory.
+
+Add the following to the above grunt configuration:
+
+```js
+grunt.initConfig({
+  generate: {
+    options: {
+      dest : 'app/scripts',
+      map : {
+        nodeunit : '/test'
+      }
+    }
+  }
+});
+```
+
+If you run
+
+```shell
+grunt generate:nodeunit/test:test_foo
+```
+
+It will process the `nodeunit/test.js` template and generate a file `test_foo.js` into the `<project>/test` directory.
+There's two things happening here:
+
+1. We map everything coming from `nodeunit` to a `test` directory
+1. We override the default `dest` by preceding our mapping destination with "/" (forward slash). It tells the task to forget whatever value `dest` has.
+
+#### Mapping template files
+
+You can also map specific template files to specific destinations.
+
+```js
+grunt.initConfig({
+  generate: {
+    options: {
+      dest : 'app/scripts',
+      map : {
+        "backbone/View" : 'views'
+      }
+    }
+  }
+});
+```
+
+When we run
+
+```shell
+grunt generate:backbone/View:LoginView
+```
+
+It will generate a file `app/scripts/views/LoginView.js`.
+Any file-specific mappings override directory mappings. For instance if we have this configuration:
+
+```js
+grunt.initConfig({
+  generate: {
+    options: {
+      dest : 'app/scripts',
+      map : {
+        backbone : 'core'
+        "backbone/View" : 'ui'
+      }
+    }
+  }
+});
+```
+
+It will generate all backbone files (`Collection`, `Model` and `Router`) inside `app/scripts/core`, except `View`s will be generated into `app/scripts/ui`.
+
+#### Constructing more complex paths
+
+More complex path structures can be created using the `:path` variable inside destinations, it will be replaced with the path-part of your arguments, i.e. everything which follows "@" (at-sign).
+
+For example:
+
+```js
+grunt.initConfig({
+  generate: {
+    options: {
+      dest : 'app/scripts',
+      map : {
+        "backbone/View" : ':path/views'
+      }
+    }
+  }
+});
+```
+
+Allows you to organize your files by domain, like this:
+
+```shell
+grunt generate:backbone/View:LoginView@user
+```
+
+This will generate `app/scripts/user/views/LoginView.js` file.
+
+### Inside the templates
+
+You can write whatever you want obviously. The templates are processed with [grunt.template](http://gruntjs.com/api/grunt.template) (i.e. they use [Lo-Dash templating](http://lodash.com/docs/#template))
+
+**Grunt is automatically exposed, so you have access to the full Grunt API**.
+
+There are a few special variables you can use however:
+
+1. `file` contains all information on the generated file, e.g. for `generate:backbone/View:LoginView@user/views`
+
+  ```js
+  {
+    name: 'LoginView',
+    directory: 'user/views',
+    basename: 'LoginView.js',
+    template: '.tmp/:path/:file',
+    relative: '.tmp/user/views/LoginView.js',
+    absolute: '/Users/creynder/Dropbox/Work/Projects/grunt-generate/.tmp/user/views/LoginView.js',
+    path: '.tmp/user/views'
+  }
+  ```
+
+1. `meta` contains information that can be useful for class declarations:
+
+  ```js
+  {
+    className: 'Loginview',
+    type: 'backbone.View',
+    package: 'user.views',
+    fqn: 'user.views.Loginview'
+  }
+  ```
+
 ### Options
 
-#### src
+#### `src`
+
+**Optional**
+
 Type: `String`
+
 Default: 'templates'
 
 Path to the source templates directory. Do not end this with a `/` (slash).
 Relative to the Gruntfile.
 
-### Usage Examples
-
-The typical command would be:
-```shell
-  grunt generate:backbone/Model:Credentials@login
-```
-
-This will take the template `Model.js` inside the `templates/backbone` directory of the grunt-generate task, process it and output to a file
-`app/scripts/models/FooModel.js`
-
-### Template path and filename mappings
-
-You can define mappings for all parts of your template paths to be resolved into a different directory structure in your application directory.
-
-For instance, this is our Grunt config, specifically for Backbone:
-
 ```js
-    backbone:{
-      options:{
-        map:{
-          View: 'views/View',
-          Model: 'models/Model',
-          Collection: 'collections/Collection',
-          Router: 'routers/Router'
-        }
-      }
-    }
-```
-
-When the task is run with `View` as a parameter, like this:
-
-```shell
-  grunt generate:backbone:View:*/FooView
-```
-
-The wildcard character `*` (asterisk) is automatically substituted by the mapping in the config.
-E.g. if our config is this:
-
-```js
-    backbone:{
-      options:{
-        map:{
-          View: 'ui/View'
-        }
-      }
-    }
-```
-Then `FooView` will be generated inside a `ui` directory instead.
-
-### Using your own templates
-
-The whole idea however is that you can easily use your own templates instead of the predefined ones.
-
-1. Just drop a template (e.g. `Bar.js`) inside a directory of your own choosing, e.g. `templates`
-1. Configure the task:
-
-  ```js
-    grunt.initConfig({
-    generate: {
-      options: {
-        appName: 'MyAwesomeApp',
-        src: 'templates',
-        map:{
-          Bar: 'baz/Bar'
-        }
-      }
-    }
-  ```
-1. run the task
-  ```shell
-  grunt generate:Bar:Qux
-  ```
-
-  a file `app/scripts/baz/Qux.js` will be generated from the `Bar` template.
-
-#### Inside the templates
-
-You can write whatever you want obviously. **Grunt is automatically exposed, so you have access to the full Grunt API**.
-And also **all of your task-specific options are exposed as variables**.
-E.g. you can access the application name with `appName`.
-
-There are a few special variables:
-
-* `className`: the name of the class as passed as a parameter, in the above example this would be 'Qux'.
-* `package`: an autogenerated package, constructed from the appName and the directory structure, e.g. 'myAwesomeApp.baz'.
-* `type`: The template used, e.g. 'Bar'
-* `fqn` : The fully qualifued name, e.g. 'myAwesomeApp.baz.Qux'
-* `baseName` : the basename of the file, e.g. 'Qux.js'
-
-An overview of all variables and their values will be shown if you run the task with `--verbose`.
-
-
-### Convoluted example, just for the heck of it
-
-An example to show how configurable the task is.
-
-Let's say you're using 'Backbone.Marionette' in your application. You have templates for the Backbone classes and templates for Marionette classes and your app resides in a `src/js` directory.
-Since everything is configurable you can choose whatever structure you want for your templates directory, let's assume we have these two template files:
-
-```
-templ/bb/Model.js
-templ/m/views/ItemView.js
-```
-
-And your config would look like this:
-
-```js
-  grunt.initConfig({
+grunt.initConfig({
   generate: {
     options: {
-      appName: 'KillerApp',
-      src: 'templ',
-      dest: 'src/js'
-    },
+      src : 'templates'
+    }
+  }
+});
+```
 
-    //this MUST be the directory name of your backbone templates
-    bb:{
-      options:{
-        map: {
-          Model: 'data/Model'
-        }
-      }
-    },
+#### `dest`
 
-    //this MUST be the directory name of your marionette templates
-    m:{
-      options:{
-        map:{
-          views: 'ui'
-        }
+**Optional**
+
+Type: `String`
+
+Defines the default destination directory.
+
+```js
+grunt.initConfig({
+  generate: {
+    options: {
+      dest : 'app/scripts'
+    }
+  }
+});
+```
+
+#### `map`
+
+**Optional**
+
+Type : `Object`
+
+Maps template directories to destination directories.
+
+```js
+grunt.initConfig({
+  generate: {
+    options: {
+      map : {
+        "backbone/View" : 'app/scripts/views'
       }
     }
   }
-```
-
-Let's further assume you like to separate your app by functionality and we're working on an editor, then the following command:
-
-```shell
-grunt generate:bb:Model:editor/*/FooModel
-```
-
-Will use `templ/bb/Model.js` to generate a file `src/js/editor/data/FooModel.js`
-
-and
-
-```shell
-grunt generate:m:views/ItemView:core/*/MainView
-```
-
-will use `templ/m/views/ItemView.js` to generate a file `src/js/core/ui/MainView.js`
-
-
+});
 
 ## Contributing
 
@@ -221,3 +271,4 @@ will use `templ/m/views/ItemView.js` to generate a file `src/js/core/ui/MainView
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 
+[predefined-templates]: /tree/master/templates

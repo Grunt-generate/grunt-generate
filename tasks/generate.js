@@ -15,15 +15,15 @@ var _s = require( 'underscore.string' );
 module.exports = function( grunt ){
   grunt.registerTask( 'generate', 'Generator for user-defined templates', function(){
     if( 2 !== this.args.length ){
-      grunt.fail.fatal( new Error( 'Generate task requires exactly 2 arguments, e.g. "generate:backbone/Model:AuthModel@login".' ) );
+      grunt.fail.fatal( new Error( 'Generate task requires exactly 2 task arguments, e.g. "generate:backbone/Model:AuthModel@login".' ) );
     }
-
-    grunt.template.addDelimiters( 'handlebars', '{{', '}}' );
 
     var done = this.async();
 
     var options = this.options( {
-      src : "templates"
+      src : "templates",
+      dest : '',
+      map : {}
     } );
 
     var source = {
@@ -34,7 +34,7 @@ module.exports = function( grunt ){
     var destArgs = this.args[1].split( '@' );
     var destination = {
       name      : destArgs.shift(),
-      directory : destArgs.shift()
+      directory : destArgs.shift() || ''
     };
 
     glob( source.pattern, function( err,
@@ -53,19 +53,42 @@ module.exports = function( grunt ){
       source.absolute = path.resolve( source.relative );
       source.ext = path.extname( source.relative );
       destination.basename = destination.name + source.ext;
-      destination.template = options.map[source.path] || options.default;
 
-      if( 'undefined' === typeof destination.template ){
-        grunt.fail.fatal( new Error( 'No destination mapping found for "' + source.path + '".' ) );
+      var mapping;
+      var sourcePathParts = source.path.split('/');
+      findMapping : while(sourcePathParts.length > 0){
+        mapping = options.map[sourcePathParts.join('/')]
+        if( mapping ){
+          break findMapping;
+        }
+        sourcePathParts.pop();
       }
 
-      destination.relative = grunt.template.process( destination.template, {
-        data       : {
-          name : destination.basename,
-          path : destination.directory
-        },
-        delimiters : "handlebars"
-      } );
+      if( '/' === destination.directory.charAt(0)){
+        destination.directory = destination.directory.substr(1);
+        destination.template = ':path/:file';
+      }else{
+        if(! mapping){
+          destination.template = options.dest;
+        }else{
+          if('/' === mapping.charAt(0)){
+            destination.template = mapping.substr(1); //drop '/' at beginning
+          }else{
+            destination.template = path.join(options.dest, mapping);
+          }
+        }
+      }
+
+      if(0 > destination.template.indexOf(':file')){
+        if(0 > destination.template.indexOf(':path')){
+          destination.template = path.join(destination.template, ':path');
+        }
+        destination.template = path.join(destination.template, ':file');
+      }
+
+      destination.relative = path.join(destination.template
+          .replace(':path', destination.directory )
+          .replace(':file', destination.basename));
 
       destination.absolute = path.resolve( destination.relative );
       destination.path = destination.relative.replace( '/' + destination.basename, '' );
@@ -74,7 +97,7 @@ module.exports = function( grunt ){
         meta : {
           className : _s.classify( destination.name ),
           type      : source.path.replace( '/', '.' ),
-          package   : _s.camelize( destination.directory )
+          package   : _s.camelize( destination.directory.replace('/', '.', 'g') )
         }
       };
       data.meta.fqn = data.meta.package + '.' + data.meta.className;

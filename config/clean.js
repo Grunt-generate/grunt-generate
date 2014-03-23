@@ -1,5 +1,5 @@
 module.exports = {
-  "temp" : [
-    ".tmp"
+  "tests" : [
+    "test/fixtures/generated"
   ]
 };
