@@ -38,7 +38,7 @@ module.exports = function( grunt ){
 
     var patterns = [
       source.pattern,
-      path.join( __dirname, source.path + '.*' )
+      path.join( __dirname, '..', 'templates', source.path + '.*' )
     ];
     var files = grunt.file.expand( patterns );
 
