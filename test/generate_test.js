@@ -155,19 +155,5 @@ module.exports = {
       test.ok( expect( err ).not.to.be.undefined );
       test.done();
     } );
-  },
-//
-//  'should throw error when multiple template files match' : function( test ){
-//    grunt.util.spawn( {
-//      grunt : true,
-//      args  : ['generate:mapping/*:undefined'].concat(defaultArgs)
-//    }, function( err,
-//                 result ){
-//      test.expect( 2 );
-//      test.ok( expect( result.stdout ).to.contain( 'Ambiguous reference to template file' ) );
-//      test.ok( expect( err ).not.to.be.undefined );
-//      test.done();
-//    } );
-//  }
-
+  }
 };
