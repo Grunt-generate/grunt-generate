@@ -1,6 +1,6 @@
 {
   "name": "grunt-generate",
-  "description": "Grunt task that generates files from user-defined templates. It follows the DFGIMW mantra (don't fucking get in my way).",
+  "description": "Grunt task that generates files from user-defined templates.",
   "version": "0.2.0",
   "homepage": "https://github.com/grunt-generate/grunt-generate",
   "author": {
@@ -33,7 +33,6 @@
     "grunt-contrib-nodeunit": "^0.1.2",
     "jit-grunt": "^0.3.2",
     "time-grunt": "^0.2.10",
-    "load-grunt-tasks": "^0.4.0",
     "load-grunt-configs": "^0.3.2",
     "grunt-generate-configs": "^0.5.0",
     "jshint-stylish": "^0.1.5",
@@ -44,16 +43,13 @@
   },
   "keywords": [
     "backbone",
-    "marionette",
     "generators",
     "scaffold",
-    "gruntplugin"
+    "gruntplugin",
+    "grunt",
+    "gruntfile"
   ],
   "dependencies": {
-    "grunt-contrib-clean": "^0.4.1",
-    "grunt-contrib-jshint": "^0.1.1",
-    "grunt-contrib-nodeunit": "^0.1.2",
-    "glob": "^3.2.9",
     "underscore.string": "^2.3.3"
   }
 }
