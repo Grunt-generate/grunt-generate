@@ -1,4 +1,4 @@
-# grunt-generate
+# grunt-generate [![GitHub version](https://badge.fury.io/gh/grunt-generate%2Fgrunt-generate.png)](http://badge.fury.io/gh/grunt-generates%2Fgrunt-generate-)[![Build Status](https://secure.travis-ci.org/grunt-generate/grunt-generate.png?branch=master)](http://travis-ci.org/grunt-generate/grunt-generate)
 
 > Grunt plugin that generates files from user-defined templates.
 
