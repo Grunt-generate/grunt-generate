@@ -264,6 +264,17 @@ grunt.initConfig({
   }
 });
 
+#### `prompt`
+
+**Optional**
+
+Type : `boolean`
+
+Default: `true`
+
+When `true` you'll be asked confirmation whether you want to generate the file or not.
+
+
 ## Quick cheat sheet
 
 [See some examples/a quick cheat sheet](https://github.com/Grunt-generate/grunt-generate/tree/master/CHEATSHEET.md)

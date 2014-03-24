@@ -50,6 +50,7 @@
     "gruntfile"
   ],
   "dependencies": {
-    "underscore.string": "^2.3.3"
+    "underscore.string": "^2.3.3",
+    "inquirer": "^0.4.1"
   }
 }

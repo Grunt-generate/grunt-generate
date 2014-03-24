@@ -10,8 +10,10 @@
 
 var path = require( 'path' );
 var _s = require( 'underscore.string' );
+var inquirer = require( 'inquirer' );
 
 module.exports = function( grunt ){
+
   grunt.registerTask( 'generate', 'Generator for user-defined templates', function(){
     if( 2 !== this.args.length ){
       grunt.fail.fatal( new Error( 'Generate task requires exactly 2 task arguments, e.g. "generate:backbone/Model:AuthModel@login".' ) );
@@ -19,10 +21,21 @@ module.exports = function( grunt ){
 
     var done = this.async();
 
+    function finalize(destination, data){
+      if(! grunt.file.exists(destination.absolute)){
+        grunt.file.write( destination.absolute, data );
+        return done(true);
+      }
+
+      return grunt.fail.fatal(new Error('file already exists: ' + destination.relative));
+    }
+
+
     var options = this.options( {
       src  : "templates",
       dest : '',
-      map  : {}
+      map  : {},
+      prompt : true
     } );
 
     var source = {
@@ -106,9 +119,25 @@ module.exports = function( grunt ){
     grunt.verbose.writeln( 'Template data:'.cyan, '\n', data );
     grunt.verbose.writeln( 'File contents:'.cyan, '\n', processed );
 
-    grunt.file.write( destination.absolute, processed );
+    if(options.prompt){
+      inquirer.prompt([
+        {
+          type : "confirm",
+          message : "Are you sure you want to create '" + destination.relative + "'?",
+          name : "confirmed",
+          default : true
+        }
+      ], function(answers){
+        if(answers.confirmed){
+          return finalize( destination, processed );
+        }else{
+          return done(false);
+        }
+      });
+    }else{
+      return finalize( destination, processed );
+    }
 
-    return done( true );
   } );
 
 };
