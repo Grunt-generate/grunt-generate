@@ -47,7 +47,7 @@ module.exports = {
     }, function( err,
                  result ){
       test.expect( 2 );
-      test.ok( expect( result.stdout ).to.contain( 'requires exactly 2 arguments' ) );
+      test.ok( expect( result.stdout ).to.contain( 'requires exactly 2 task arguments' ) );
       test.ok( expect( err ).not.to.be.undefined );
       test.done();
     } );

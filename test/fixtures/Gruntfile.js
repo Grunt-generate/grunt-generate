@@ -20,8 +20,8 @@ module.exports = function( grunt ){
           "mapping" : "mapped",
           "override" : '/generated/overridden/mapped',
           "override/ExtraModule" : 'overridden',
-          "constructed" : ':path/constructed',
-          "constructed/ExtraModule" : ':path/constructed/stub_:file'
+          "constructed" : ':dir/constructed',
+          "constructed/ExtraModule" : ':dir/constructed/stub_:basename'
         }
       }
     }

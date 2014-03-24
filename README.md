@@ -146,7 +146,7 @@ It will generate all backbone files (`Collection`, `Model` and `Router`) inside 
 
 #### Constructing more complex paths
 
-More complex path structures can be created using the `:path` variable inside destinations, it will be replaced with the path-part of your arguments, i.e. everything which follows "@" (at-sign).
+More complex path structures can be created using the `:dir` variable inside destinations, it will be replaced with the path-part of your arguments, i.e. everything which follows "@" (at-sign).
 
 For example:
 
@@ -156,7 +156,7 @@ grunt.initConfig({
     options: {
       dest : 'app/scripts',
       map : {
-        "backbone/View" : ':path/views'
+        "backbone/View" : ':dir/views'
       }
     }
   }
@@ -186,7 +186,7 @@ There are a few special variables you can use however:
     name: 'LoginView',
     directory: 'user/views',
     basename: 'LoginView.js',
-    template: '.tmp/:path/:file',
+    template: '.tmp/:dir/:basename',
     relative: '.tmp/user/views/LoginView.js',
     absolute: '/Users/creynder/Dropbox/Work/Projects/grunt-generate/.tmp/user/views/LoginView.js',
     path: '.tmp/user/views'

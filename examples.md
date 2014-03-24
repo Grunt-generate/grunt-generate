@@ -70,8 +70,8 @@ generate : {
 	options : {
 		default : "app/scripts"
 		map : {
-			"backbone/View" : ":path/ui/views"
-			"grunt" : "/build/config-:file"
+			"backbone/View" : ":dir/ui/views"
+			"grunt" : "/build/config-:basename"
 		}
 	}
 }

@@ -34,7 +34,7 @@ module.exports = function( grunt ){
     var destArgs = this.args[1].split( '@' );
     var destination = {
       name      : destArgs.shift(),
-      directory : destArgs.shift() || ''
+      dir : destArgs.shift() || ''
     };
 
     glob( source.pattern, function( err,
@@ -64,9 +64,9 @@ module.exports = function( grunt ){
         sourcePathParts.pop();
       }
 
-      if( '/' === destination.directory.charAt(0)){
-        destination.directory = destination.directory.substr(1);
-        destination.template = ':path/:file';
+      if( '/' === destination.dir.charAt(0)){
+        destination.dir = destination.dir.substr(1);
+        destination.template = ':dir/:basename';
       }else{
         if(! mapping){
           destination.template = options.dest;
@@ -79,16 +79,16 @@ module.exports = function( grunt ){
         }
       }
 
-      if(0 > destination.template.indexOf(':file')){
-        if(0 > destination.template.indexOf(':path')){
-          destination.template = path.join(destination.template, ':path');
+      if(0 > destination.template.indexOf(':basename')){
+        if(0 > destination.template.indexOf(':dir')){
+          destination.template = path.join(destination.template, ':dir');
         }
-        destination.template = path.join(destination.template, ':file');
+        destination.template = path.join(destination.template, ':basename');
       }
 
       destination.relative = path.join(destination.template
-          .replace(':path', destination.directory )
-          .replace(':file', destination.basename));
+          .replace(':dir', destination.dir )
+          .replace(':basename', destination.basename));
 
       destination.absolute = path.resolve( destination.relative );
       destination.path = destination.relative.replace( '/' + destination.basename, '' );
@@ -97,7 +97,7 @@ module.exports = function( grunt ){
         meta : {
           className : _s.classify( destination.name ),
           type      : source.path.replace( '/', '.' ),
-          package   : _s.camelize( destination.directory.replace('/', '.', 'g') )
+          package   : _s.camelize( destination.dir.replace('/', '.', 'g') )
         }
       };
       data.meta.fqn = data.meta.package + '.' + data.meta.className;
