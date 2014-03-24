@@ -263,6 +263,7 @@ grunt.initConfig({
     }
   }
 });
+```
 
 #### `prompt`
 
