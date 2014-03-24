@@ -264,6 +264,10 @@ grunt.initConfig({
   }
 });
 
+## Quick cheat sheet
+
+[See some examples/a quick cheat sheet](https://github.com/Grunt-generate/grunt-generate/tree/master/CHEATSHEET.md)
+
 ## Contributing
 
 **We'd like to provide some more pre-defined templates, since people can use them as a starting point for their own templates. If you happen to have some lying around we'd be very happy to add them.**
@@ -271,4 +275,4 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 
-[predefined-templates]: /tree/master/templates
+[predefined-templates]: https://github.com/Grunt-generate/grunt-generate/tree/master/templates
