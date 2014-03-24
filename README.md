@@ -272,7 +272,10 @@ grunt.initConfig({
 
 **We'd like to provide some more pre-defined templates, since people can use them as a starting point for their own templates. If you happen to have some lying around we'd be very happy to add them.**
 
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+In lieu of a formal styleguide, take care to maintain the existing coding style.
+Add unit tests for any new or changed functionality.
+Lint and test your code using [Grunt](http://gruntjs.com/).
+An `.editorconfig` file is provided; use it!
 
 
 [predefined-templates]: https://github.com/Grunt-generate/grunt-generate/tree/master/templates
