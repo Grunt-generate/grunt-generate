@@ -39,7 +39,7 @@ module.exports = function( grunt ){
     var patterns = [
       source.pattern,
       path.join( __dirname, source.path + '.*' )
-    ]
+    ];
     var files = grunt.file.expand( patterns );
 
     if( files.length <= 0 ){
@@ -54,7 +54,7 @@ module.exports = function( grunt ){
     var mapping;
     var sourcePathParts = source.path.split( '/' );
     findMapping : while( sourcePathParts.length > 0 ){
-      mapping = options.map[sourcePathParts.join( '/' )]
+      mapping = options.map[sourcePathParts.join( '/' )];
       if( mapping ){
         break findMapping;
       }
