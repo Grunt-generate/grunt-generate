@@ -1,7 +1,7 @@
 module.exports = {
-  options  : {
-    dest: ".tmp",
-    map: {
+  options : {
+    dest : ".tmp",
+    map  : {
       "grunt" : "/config"
     }
   }

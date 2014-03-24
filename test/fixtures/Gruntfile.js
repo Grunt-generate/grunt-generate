@@ -14,13 +14,13 @@ module.exports = function( grunt ){
   grunt.initConfig( {
     generate : {
       options : {
-        src : 'templates',
+        src  : 'templates',
         dest : 'generated/dest',
-        map : {
-          "mapping" : "mapped",
-          "override" : '/generated/overridden/mapped',
-          "override/ExtraModule" : 'overridden',
-          "constructed" : ':dir/constructed',
+        map  : {
+          "mapping"                 : "mapped",
+          "override"                : '/generated/overridden/mapped',
+          "override/ExtraModule"    : 'overridden',
+          "constructed"             : ':dir/constructed',
           "constructed/ExtraModule" : ':dir/constructed/stub_:basename'
         }
       }
