@@ -16,6 +16,7 @@ module.exports = function( grunt ){
       options : {
         src  : 'templates',
         dest : 'generated/dest',
+        prompt: false,
         map  : {
           "mapping"                 : "mapped",
           "override"                : '/generated/overridden/mapped',
