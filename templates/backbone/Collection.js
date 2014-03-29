@@ -2,6 +2,10 @@
 var app = app || {};
 (function(){
   'use strict';
-  app.<%= meta.className %> = Backbone.Collection.extend({
+  app.collections.<%= meta.className %> = Backbone.Collection.extend({
+//    model : undefined,
+//    url : undefined,
+    initialize : function(){
+    }
   });
 })();

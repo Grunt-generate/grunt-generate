@@ -2,7 +2,10 @@
 var app = app || {};
 (function(){
   'use strict';
-  var <%= meta.className %> = Backbone.Router.extend({
+  app.routers.<%= meta.className %> = Backbone.Router.extend({
+    routes : {
+    },
+    initialize : function(){
+    }
   });
-  app.<%= meta.className %> = new <%= meta.className %>();
 })();
