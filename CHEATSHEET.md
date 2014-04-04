@@ -2,7 +2,7 @@
 
 We have a `templates/backbone/View.js` and `templates/grunt/taskConfig.js` file.
 
-### With `default`
+### With `dest`
 
 ```js
 generate : {
