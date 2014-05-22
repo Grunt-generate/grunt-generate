@@ -155,5 +155,22 @@ module.exports = {
       test.ok( expect( err ).not.to.be.undefined );
       test.done();
     } );
+  },
+
+  'should expose grunt config to templates': function (test) {
+    grunt.util.spawn({
+      grunt: true,
+      args: ['generate:interpolate/fileWithGruntConfig:file'].concat(defaultArgs)
+    }, function (err, result) {
+      err && test.fail(result.stdout);
+      test.expect( 2 );
+      test.ok( expect(
+        grunt.file.read( 'test/fixtures/generated/dest/interpolated/file.js' )
+      ).to.contain( 'templates' ));
+      test.ok( expect(
+        grunt.file.read( 'test/fixtures/generated/dest/interpolated/file.js' )
+      ).to.contain( 'generated/dest' ));
+      test.done();
+    });
   }
 };

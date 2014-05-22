@@ -9,6 +9,7 @@
 'use strict';
 
 var path = require( 'path' );
+var _ = require( 'underscore' );
 var _s = require( 'underscore.string' );
 var inquirer = require( 'inquirer' );
 
@@ -113,7 +114,7 @@ module.exports = function( grunt ){
     data.meta.fqn = data.meta.package + '.' + data.meta.className;
 
     var processed = grunt.template.process( grunt.file.read( source.absolute ), {
-      data : data
+      data : _.extend({}, grunt.config.data, data)
     } );
 
     grunt.verbose.writeln( 'Template data:'.cyan, '\n', data );
