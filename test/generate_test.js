@@ -157,20 +157,18 @@ module.exports = {
     } );
   },
 
-  'should expose grunt config to templates': function (test) {
-    grunt.util.spawn({
-      grunt: true,
-      args: ['generate:interpolate/fileWithGruntConfig:file'].concat(defaultArgs)
-    }, function (err, result) {
-      err && test.fail(result.stdout);
+  'should expose grunt config to templates' : function( test ){
+    grunt.util.spawn( {
+      grunt : true,
+      args  : ['generate:interpolate/fileWithGruntConfig:file'].concat( defaultArgs )
+    }, function( err,
+                 result ){
+      err && test.fail( result.stdout );
+      var generated = require( './fixtures/generated/dest/interpolated/file.js' );
       test.expect( 2 );
-      test.ok( expect(
-        grunt.file.read( 'test/fixtures/generated/dest/interpolated/file.js' )
-      ).to.contain( 'templates' ));
-      test.ok( expect(
-        grunt.file.read( 'test/fixtures/generated/dest/interpolated/file.js' )
-      ).to.contain( 'generated/dest' ));
+      test.ok( expect( generated.src ).to.equal( 'templates' ) );
+      test.ok( expect( generated.dest ).to.equal( 'generated/dest' ) );
       test.done();
-    });
+    } );
   }
 };

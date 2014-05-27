@@ -9,7 +9,7 @@
 'use strict';
 
 var path = require( 'path' );
-var _ = require( 'underscore' );
+var _ = require( 'lodash' );
 var _s = require( 'underscore.string' );
 var inquirer = require( 'inquirer' );
 
@@ -22,20 +22,20 @@ module.exports = function( grunt ){
 
     var done = this.async();
 
-    function finalize(destination, data){
-      if(! grunt.file.exists(destination.absolute)){
+    function finalize( destination,
+                       data ){
+      if( !grunt.file.exists( destination.absolute ) ){
         grunt.file.write( destination.absolute, data );
-        return done(true);
+        return done( true );
       }
 
-      return grunt.fail.fatal(new Error('file already exists: ' + destination.relative));
+      return grunt.fail.fatal( new Error( 'file already exists: ' + destination.relative ) );
     }
 
-
     var options = this.options( {
-      src  : "templates",
-      dest : '',
-      map  : {},
+      src    : "templates",
+      dest   : '',
+      map    : {},
       prompt : true
     } );
 
@@ -98,43 +98,43 @@ module.exports = function( grunt ){
     }
 
     destination.relative = path.join( destination.template
-        .replace( ':dir', destination.dir )
-        .replace( ':basename', destination.basename ) );
+      .replace( ':dir', destination.dir )
+      .replace( ':basename', destination.basename ) );
 
     destination.absolute = path.resolve( destination.relative );
     destination.path = destination.relative.replace( '/' + destination.basename, '' );
-    var data = {
+    var data = _.extend( {
       file : destination,
       meta : {
         className : _s.classify( destination.name ),
         type      : source.path.replace( '/', '.' ),
         package   : _s.camelize( destination.dir.replace( '/', '.', 'g' ) )
       }
-    };
+    }, grunt.config.data );
     data.meta.fqn = data.meta.package + '.' + data.meta.className;
 
     var processed = grunt.template.process( grunt.file.read( source.absolute ), {
-      data : _.extend({}, grunt.config.data, data)
+      data : data
     } );
 
     grunt.verbose.writeln( 'Template data:'.cyan, '\n', data );
     grunt.verbose.writeln( 'File contents:'.cyan, '\n', processed );
 
-    if(options.prompt){
-      inquirer.prompt([
+    if( options.prompt ){
+      inquirer.prompt( [
         {
-          type : "confirm",
+          type    : "confirm",
           message : "Are you sure you want to create '" + destination.relative + "'?",
-          name : "confirmed",
+          name    : "confirmed",
           default : true
         }
-      ], function(answers){
-        if(answers.confirmed){
+      ], function( answers ){
+        if( answers.confirmed ){
           return finalize( destination, processed );
         }else{
-          return done(false);
+          return done( false );
         }
-      });
+      } );
     }else{
       return finalize( destination, processed );
     }
