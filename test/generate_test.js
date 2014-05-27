@@ -170,5 +170,20 @@ module.exports = {
       test.ok( expect( generated.dest ).to.equal( 'generated/dest' ) );
       test.done();
     } );
+  },
+
+  'should expose grunt instance to templates' : function( test ){
+    grunt.util.spawn( {
+      grunt : true,
+      args  : ['generate:grunt/accessGrunt:file'].concat( defaultArgs )
+    }, function( err,
+                 result ){
+      err && test.fail( result.stdout );
+      var generated = require( './fixtures/generated/dest/grunt/file.js' );
+      test.expect( 1 );
+      test.ok( expect( generated.src ).to.equal( 'templates' ) );
+      test.done();
+    } );
   }
+
 };
