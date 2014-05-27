@@ -192,6 +192,12 @@ There are a few special variables you can use however:
     path: '.tmp/user/views'
   }
   ```
+  
+  E.g.:
+  
+  ```js
+  //<%= file.basename %>, 2014 (c) Camille Reynders
+  ```
 
 1. `meta` contains information that can be useful for class declarations:
 
@@ -202,6 +208,18 @@ There are a few special variables you can use however:
     package: 'user.views',
     fqn: 'user.views.Loginview'
   }
+  ```
+  
+  E.g.:
+  
+  ```js
+  app.<%= meta.className %> = Backbone.View.extend({});
+  ```
+  
+ 1. (>=v0.3.1) the entire grunt configuration is exposed inside the templates:
+ 
+  ```js
+  var jshintrc = '<%= jshint.options.jshintrc %>';
   ```
 
 ### Options
@@ -284,10 +302,21 @@ When `true` you'll be asked confirmation whether you want to generate the file o
 
 **We'd like to provide some more pre-defined templates, since people can use them as a starting point for their own templates. If you happen to have some lying around we'd be very happy to add them.**
 
-In lieu of a formal styleguide, take care to maintain the existing coding style.
-Add unit tests for any new or changed functionality.
-Lint and test your code using [Grunt](http://gruntjs.com/).
-An `.editorconfig` file is provided; use it!
+* In lieu of a formal styleguide, take care to maintain the existing coding style.
+* Add unit tests for any new or changed functionality.
+* Lint and test your code:
+  
+  ```shell
+  grunt test
+  ```
+
+* An `.editorconfig` file is provided; use it!
+
+### Contributors
+
+* [Posabsolute](/posabsolute)
+* [Creynders](/creynders)
+* [Jrencz](/jrencz)
 
 
 [predefined-templates]: https://github.com/Grunt-generate/grunt-generate/tree/master/templates
