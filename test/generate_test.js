@@ -184,6 +184,32 @@ module.exports = {
       test.ok( expect( generated.src ).to.equal( 'templates' ) );
       test.done();
     } );
+  },
+
+  'should recreate file extension': function( test ) {
+    grunt.util.spawn( {
+      grunt : true,
+      args  : ['generate:extension/page:file'].concat( defaultArgs )
+    }, function( err,
+                 result ){
+      err && test.fail( result.stdout );
+      test.expect( 1 );
+      test.ok( grunt.file.exists( 'test/fixtures/generated/dest/extension/file.html' ) );
+      test.done();
+    } );
+  },
+
+  'should recreate multiple file extensions': function( test ) {
+    grunt.util.spawn( {
+      grunt : true,
+      args  : ['generate:extension/class:file'].concat( defaultArgs )
+    }, function( err,
+                 result ){
+      err && test.fail( result.stdout );
+      test.expect( 1 );
+      test.ok( grunt.file.exists( 'test/fixtures/generated/dest/extension/file.es6.js' ) );
+      test.done();
+    } );
   }
 
 };

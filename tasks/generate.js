@@ -12,6 +12,7 @@ var path = require( 'path' );
 var _ = require( 'lodash' );
 var _s = require( 'underscore.string' );
 var inquirer = require( 'inquirer' );
+var pathCompleteExtname = require('path-complete-extname');
 
 module.exports = function( grunt ){
 
@@ -62,7 +63,7 @@ module.exports = function( grunt ){
 
     source.relative = files[0];
     source.absolute = path.resolve( source.relative );
-    source.ext = path.extname( source.relative );
+    source.ext = pathCompleteExtname( source.relative );
     destination.basename = destination.name + source.ext;
 
     var mapping;

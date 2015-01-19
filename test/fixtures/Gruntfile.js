@@ -24,7 +24,8 @@ module.exports = function( grunt ){
           "constructed"             : ':dir/constructed',
           "constructed/ExtraModule" : ':dir/constructed/stub_:basename',
           "interpolate"             : 'interpolated',
-          "grunt"                   : 'grunt'
+          "grunt"                   : 'grunt',
+          "extension"               : 'extension'
         }
       }
     }

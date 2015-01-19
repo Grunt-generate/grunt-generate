@@ -50,8 +50,9 @@
     "gruntfile"
   ],
   "dependencies": {
-    "underscore.string": "^2.3.3",
     "inquirer": "^0.4.1",
-    "lodash": "^2.4.1"
+    "lodash": "^2.4.1",
+    "path-complete-extname": "^0.1.0",
+    "underscore.string": "^2.3.3"
   }
 }
