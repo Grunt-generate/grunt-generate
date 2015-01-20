@@ -1,7 +1,7 @@
 {
   "name": "grunt-generate",
   "description": "Grunt task that generates files from user-defined templates.",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "homepage": "https://github.com/grunt-generate/grunt-generate",
   "author": {
     "name": "Camille Reynders",
