@@ -28,7 +28,11 @@ grunt.loadNpmTasks('grunt-generate');
 
 ## The "generate" task
 
-### v0.3
+### v0.3.2
+
+grunt-generate now respects files with multiple extensions, e.g. `template.es6.js` will generate a `foo.es6.js`.
+
+### v0.3.x
 
 v0.3 introduces an entirely new API and is most definitely NOT backwards compatible. Compared to the previous versions it should be more clear, intuitive and save you some typing.
 
@@ -192,9 +196,9 @@ There are a few special variables you can use however:
     path: '.tmp/user/views'
   }
   ```
-  
+
   E.g.:
-  
+
   ```js
   //<%= file.basename %>, 2014 (c) Camille Reynders
   ```
@@ -209,15 +213,15 @@ There are a few special variables you can use however:
     fqn: 'user.views.Loginview'
   }
   ```
-  
+
   E.g.:
-  
+
   ```js
   app.<%= meta.className %> = Backbone.View.extend({});
   ```
-  
+
  1. (>=v0.3.1) the entire grunt configuration is exposed inside the templates:
- 
+
   ```js
   var jshintrc = '<%= jshint.options.jshintrc %>';
   ```
@@ -305,7 +309,7 @@ When `true` you'll be asked confirmation whether you want to generate the file o
 * In lieu of a formal styleguide, take care to maintain the existing coding style.
 * Add unit tests for any new or changed functionality.
 * Lint and test your code:
-  
+
   ```shell
   grunt test
   ```
@@ -314,9 +318,10 @@ When `true` you'll be asked confirmation whether you want to generate the file o
 
 ### Contributors
 
-* [Posabsolute](/posabsolute)
-* [Creynders](/creynders)
-* [Jrencz](/jrencz)
+* [posabsolute](https://github.com/posabsolute)
+* [creynders](https://github.com/creynders)
+* [jrencz](https://github.com/jrencz)
+* [dallonf](https://github.com/dallonf)
 
 
 [predefined-templates]: https://github.com/Grunt-generate/grunt-generate/tree/master/templates
