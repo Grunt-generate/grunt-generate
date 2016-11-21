@@ -28,7 +28,7 @@ grunt generate:grunt/taskConfig:jshint@/config
 ```js
 generate : {
 	options : {
-		dest : "app/scripts"
+		dest : "app/scripts",
 		map : {
 			grunt: "/config" //note the / before `config`, it tells the task to override `dest`
 		}
@@ -48,7 +48,7 @@ grunt generate:grunt/taskConfig:jshint@tasks
 ```js
 generate : {
 	options : {
-		default : "app/scripts"
+		default : "app/scripts",
 		map : {
 			"backbone/View" : "views" //no "/" which means views will be generated in `app/scripts/views`
 		}
@@ -68,9 +68,9 @@ grunt generate:backbone/View:TestView@login
 ```js
 generate : {
 	options : {
-		default : "app/scripts"
+		default : "app/scripts",
 		map : {
-			"backbone/View" : ":dir/ui/views"
+			"backbone/View" : ":dir/ui/views",
 			"grunt" : "/build/config-:basename"
 		}
 	}
